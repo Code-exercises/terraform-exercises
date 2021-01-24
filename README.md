@@ -1,0 +1,2 @@
+# terraform-exercises
+Terraform exercises
