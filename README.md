@@ -41,6 +41,7 @@ provider "aws" {
 - use arguments:
   - `ami` use datasource reference syntax - `data.<PROVIDER>_<TYPE>.<NAME>.<ATTRIBUTE>`
   - `instance_type`
+  - `tags.Name` - set EC2 instance name
 </details>
 
 <details>
