@@ -156,3 +156,15 @@ data "aws_ami" "ubuntu" {
 </details>
 
 </details>
+
+<details>
+<summary>Create cluster of web servers</summary>
+
+**Task:**
+- deploy cluster of http servers
+
+![cluster of http servers](./http-server-cluster/http-server-cluster.png)
+
+**Directory**: `http-server-cluster`
+
+</details>
