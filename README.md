@@ -75,6 +75,7 @@ terraform apply
 terraform destroy
 ```
 </details>
+<hr>
 </details>
 <details>
 <summary>Run HTTP server</summary>
@@ -155,6 +156,7 @@ data "aws_ami" "ubuntu" {
 - use `output "<NAME>" {value, description}` syntax
 </details>
 
+<hr>
 </details>
 
 <details>
@@ -163,8 +165,56 @@ data "aws_ami" "ubuntu" {
 **Task:**
 - deploy cluster of http servers
 
-![cluster of http servers](./http-server-cluster/http-server-cluster.png)
+![cluster of http servers](http-server-cluster/http-server-cluster.drawio.png)
 
 **Directory**: `http-server-cluster`
 
+<details>
+<summary>Solution</summary>
+
+<details>
+<summary>Use AWS provider</summary>
+
+- use `provider "<PROVIDER_NAME>" {}` syntax
+- use `eu-cental-1` region
+</details>
+
+<details>
+<summary>Create AMI Data source for Launch Configuration</summary>
+
+- use `data "<PROVIDER>_<DATASOURCE_TYPE>" "LOCAL_NAME"` syntax
+- use Canonical owner id
+- use most recent image
+- use Ubuntu 18.04 for name filter
+</details>
+
+<details>
+<summary>Use input variable for security group http port</summary>
+
+- use `variable "<NAME>" {}` syntax
+- use port `8080` as default value
+- add description
+</details>
+
+<details>
+<summary>Create Security Group for Launch Configuration</summary>
+
+- add name
+- use port value from variable
+- allow incoming traffic from all IPs to port from variable
+</details>
+
+<details>
+<summary>Create Launch Configuration for Auto Scaling Group</summary>
+
+- use image id from AMI datasource
+- use `t2.micro` instance type
+- use id of previously created security group
+- use `user_data` for starting httpd server with port from variable 
+
+</details>
+
+</details>
+
+<hr>
 </details>
