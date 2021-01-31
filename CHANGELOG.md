@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### :star: Added
 - exercise `deploy-ec2` - deploy EC2 instance
 - exercise `http-server` - deploy HTTP server
+- exercise `http-server-cluster` - deploy HTTP server with AWS Load Balancer and AWS Scaling Group
 
 ### :hammer: Changed
 
