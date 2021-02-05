@@ -317,3 +317,64 @@ data "aws_ami" "ubuntu" {
 
 <hr>
 </details>
+
+<details>
+<summary>Using remote backend</summary>
+//todo: add diagram
+
+**Task:**
+- use AWS S3 as remote backend
+
+<details>
+<summary>Solution</summary>
+
+<details>
+<summary>Use AWS provider</summary>
+
+- use `eu-central-1` region
+</details>
+
+<details>
+<summary>Create S3 Bucket for storing state file</summary>
+
+- set `bucket` (name on AWS side) - must be globally unique
+- use `prevent_destroy` lifecycle setting
+- enable versioning
+- use AES256 server-side encryption
+</details>
+
+<details>
+<summary>Create DynamoDB table for locking</summary>
+
+- set name
+- set billing mode
+- set hash key
+- set attribute
+</details>
+
+<details>
+<summary>Add S3 backend configuration</summary>
+
+- set `bucket` value - bucket name
+- set `key` - state file path
+- set region
+- set DynamoDB table name
+- encrypt bucket
+</details>
+
+<details>
+<summary>Init terraform again to configure remote backend</summary>
+
+- local backend will be copied to S3
+</details>
+
+<details>
+<summary>Add outputs</summary>
+
+- S3 Bucket arn
+- DynamoDB table name
+</details>
+
+</details>
+<hr>
+</details>
