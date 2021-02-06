@@ -1,7 +1,7 @@
 terraform {
-//  backend "s3" {
-//    key = "global/s3/terraform.tfstate"
-//  }
+//    backend "s3" {
+//      key = "global/s3/terraform.tfstate"
+//    }
 }
 
 provider "aws" {
@@ -9,7 +9,8 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "s3_backend_bucket" {
-  bucket = "romach007-terraform"
+  bucket = "http-server-remote-backend"
+  //force_destroy = true
   lifecycle {
     prevent_destroy = true
   }
@@ -26,7 +27,7 @@ resource "aws_s3_bucket" "s3_backend_bucket" {
 }
 
 resource "aws_dynamodb_table" "backend_lock_table" {
-  name = "romach007-terraform-backend-lock"
+  name = "http-server-remote-backend-lock"
   billing_mode = "PAY_PER_REQUEST"
   hash_key = "LockID"
 
@@ -34,14 +35,4 @@ resource "aws_dynamodb_table" "backend_lock_table" {
     name = "LockID"
     type = "S"
   }
-}
-
-output "s3_bucket_arn" {
-  value = aws_s3_bucket.s3_backend_bucket.arn
-  description = "The ARN of the S3 bucket"
-}
-
-output "dynamodb_table_name" {
-  value = aws_dynamodb_table.backend_lock_table.name
-  description = "The name for DynamoDB table"
 }

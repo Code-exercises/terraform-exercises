@@ -319,14 +319,33 @@ data "aws_ami" "ubuntu" {
 </details>
 
 <details>
-<summary>Using remote backend</summary>
-//todo: add diagram
+<summary>Deploy HTTP server using AWS S3 as remote backend</summary>
 
 **Task:**
-- use AWS S3 as remote backend
+- deploy HTTP server using AWS S3 as remote backend
+
+**Directory:** `remote-backend`
 
 <details>
 <summary>Solution</summary>
+
+<details>
+<summary>Create directory structure</summary>
+
+```text
+- prod
+  - services
+    - http-server
+      - variables.tf
+      - outputs.tf
+      - main.tf
+- global
+  - s3
+    - outputs.tf
+    - main.tf
+
+```
+</details>
 
 <details>
 <summary>Use AWS provider</summary>
@@ -353,18 +372,30 @@ data "aws_ami" "ubuntu" {
 </details>
 
 <details>
-<summary>Add S3 backend configuration</summary>
+<summary>Apply changes</summary>
+
+- apply changes to create infrastructure for remote backend
+</details>
+
+<details>
+<summary>Add S3 backend configuration to separate file</summary>
 
 - set `bucket` value - bucket name
-- set `key` - state file path
 - set region
 - set DynamoDB table name
 - encrypt bucket
 </details>
 
 <details>
-<summary>Init terraform again to configure remote backend</summary>
+<summary>Add path to state file to <code>terraform</code> block</summary>
 
+- set `key` - state file path
+</details>
+
+<details>
+<summary>Init terraform to copy state to remote backend</summary>
+
+- use `terraform init -backend-config=backend.hcl` command
 - local backend will be copied to S3
 </details>
 
