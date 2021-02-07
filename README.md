@@ -343,7 +343,6 @@ data "aws_ami" "ubuntu" {
   - s3
     - outputs.tf
     - main.tf
-
 ```
 </details>
 
@@ -407,5 +406,17 @@ data "aws_ami" "ubuntu" {
 </details>
 
 </details>
+<hr>
+</details>
+
+<details>
+<summary>Deploy HTTP server using modules</summary>
+
+**Task:**
+- deploy HTTP server to stage and prod environments using modules
+
+**Directory:** `modules`
+
+- directory structure
 <hr>
 </details>
