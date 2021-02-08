@@ -1,14 +1,3 @@
-terraform {
-  backend "s3" {
-    key = "prod/services/http-server/terraform.tfstate"
-  }
-}
-
-
-provider "aws" {
-  region = "eu-central-1"
-}
-
 data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # AWS account ID of Canonical
   most_recent = true
@@ -20,23 +9,29 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_security_group" "http_sg"{
   name = "http-security-group"
-  ingress {
-    from_port = var.port
-    to_port = var.port
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "inbound_http_rule" {
+  type = "ingress"
+  from_port = var.port
+  to_port = var.port
+  protocol = "tcp"
+  security_group_id = aws_security_group.http_sg.id
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/user-data.sh")
+  vars = {
+    port = var.port
   }
 }
 
 resource "aws_instance" "http_server_instance" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.http_sg.id]
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p ${var.port} &
-              EOF
+  user_data = data.template_file.user_data.rendered
   tags = {
     Name = "http-server"
   }

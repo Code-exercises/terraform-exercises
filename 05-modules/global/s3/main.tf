@@ -5,12 +5,12 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"
+  region = var.region
 }
 
 resource "aws_s3_bucket" "s3_backend_bucket" {
-  bucket = "http-server-remote-backend"
-  //force_destroy = true
+  bucket = var.project-name
+//  force_destroy = true
   lifecycle {
     prevent_destroy = true
   }
@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "s3_backend_bucket" {
 }
 
 resource "aws_dynamodb_table" "backend_lock_table" {
-  name = "http-server-remote-backend-lock"
+  name = "${var.project-name}-lock"
   billing_mode = "PAY_PER_REQUEST"
   hash_key = "LockID"
 

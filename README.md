@@ -84,7 +84,7 @@ terraform destroy
 - deploy EC2 instance with HTTP server
 - output IP address
 
-![http server](./http-server/http-server.png)
+![http server](02-http-server/http-server.png)
 
 **Directory**: `http-server`
 
@@ -165,7 +165,7 @@ data "aws_ami" "ubuntu" {
 **Task:**
 - deploy cluster of http servers
 
-![cluster of http servers](http-server-cluster/http-server-cluster.drawio.png)
+![cluster of http servers](03-http-server-cluster/http-server-cluster.drawio.png)
 
 **Directory**: `http-server-cluster`
 
@@ -417,6 +417,71 @@ data "aws_ami" "ubuntu" {
 
 **Directory:** `modules`
 
-- directory structure
+<details>
+<summary>Solution</summary>
+
+<details>
+<summary>Directory structure</summary>
+
+```text
+- modules
+  - http-server
+    - variables.tf
+    - outputs.tf
+    - main.tf
+    - user-data.sh
+- stage
+  - http-server
+- prod
+  - http-server
+- global
+  - s3
+    - outputs.tf
+    - main.tf
+```
+
+</details>
+
+<details>
+<summary>Initialize remote backend</summary>
+
+- create S3 Bucket and DynamoDB table for remote backend
+- initialize remote desktop
+  - uncomment backend configuration
+    ```hcl
+    backend "s3" {
+      key = "global/s3/terraform.tfstate"
+    }
+    ```
+  - initialize  
+    ```bash
+    terraform init -backend-config=backend.hcl
+    ```
+</details>
+
+<details>
+<summary>Create HTTP server module</summary>
+
+- don't use `provider` block
+- don't use `terraform` block
+- use `path.module` for template
+- use separate resource for Security Group Rule
+</details>
+
+<details>
+<summary>Create HTTP server on Stage</summary>
+
+- use `http-server` module
+- pass parameters to module
+- initialize Terraform with remote backend
+  ```bash
+  terraform init -backend-config=../../global/s3/backend.hcl
+  ```
+- use outputs from module
+- create additional Security Group Rule in stage configuration
+</details>
+
+</details>
+
 <hr>
 </details>
