@@ -3,7 +3,7 @@
 **Task:**
 - deploy cluster of http servers
 
-![cluster of http servers](03-http-server-cluster/http-server-cluster.drawio.png)
+![cluster of http servers](http-server-cluster.drawio.png)
 
 **Directory**: `http-server-cluster`
 

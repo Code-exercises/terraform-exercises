@@ -4,7 +4,7 @@
 - deploy EC2 instance with HTTP server
 - output IP address
 
-![http server](02-http-server/http-server.png)
+![http server](http-server.png)
 
 **Directory**: `http-server`
 
